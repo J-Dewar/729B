@@ -1,0 +1,143 @@
+---
+title: "GitHub"
+format: pdf
+editor: visual
+---
+
+# R Console Instructions
+
+## Getting Started with Git
+
+Git should likely come pre-installed on your computer. In order to set up git connected to R, you can use the usethis package like so:
+
+```{r, eval=FALSE}
+library(usethis)
+edit_git_config()
+```
+
+This will open your Git config file for you to edit with your name and email.
+
+Now that you've installed Git, you can use it locally. The use_git() function will add a Git repository (often referred to as a "repo") to an existing RStudio project.
+
+```{r, eval=FALSE}
+use_git()
+```
+
+Now that your RStudio project has an associated Git repository, I'll see an extra tab on the top right: the Git tab. From here, you can see the entire history of changes to you code over time. It will also enable you to see the statuses of your files and push and pull more easily. It will look like this:
+
+![](/Users/jordandewar/Library/Mobile Documents/com~apple~CloudDocs/Documents/GVPT 622/729B/Screen Shot 2022-12-19 at 5.50.27 PM.png)
+
+
+## Getting Started with GitHub
+
+The best way to connect RStudio and GitHub is using your username and a Personal Access Token (PAT). To generate a personal access token, use the create_github_token() function from usethis. This will take you to the appropriate page on the GitHub website, where you’ll give your token a name and copy it (don’t lose it because it will never appear again!).
+
+```{r, eval=FALSE}
+library(usethis)
+create_github_token()
+```
+
+Now that you’ve created a Personal Access Token, you need to store it so that RStudio can access it and know to connect to your GitHub account. The gitcreds_set() function from the gitcreds package will help you here. You’ll enter your GitHub username and the Personal Access Token as your password (NOT your GitHub password). Once you’ve done all of this, you have connected RStudio to GitHub!
+
+```{r, eval=FALSE}
+library(gitcreds)
+gitcreds_set()
+```
+
+## Connecting R Studio Projects and GitHub
+
+Sometimes you already have a project locally and you want to get it on GitHub. To do this, you’ll need to first use the use_git() function from usethis, as we did above. Then, you can use the use_github() function, which will create a GitHub repo and connect it to your current RStudio project.
+
+```{r, eval=FALSE}
+library(usethis)
+use_git()
+use_github()
+```
+
+However, the most straightforward way to use RStudio and GitHub together is to create a repo on GitHub first. Create the repo, then when you start a new project in RStudio, use the version control option, enter your repo URL, and you’re good to go.
+
+![](/Users/jordandewar/Library/Mobile Documents/com~apple~CloudDocs/Documents/GVPT 622/729B/Screen Shot 2022-12-19 at 5.59.34 PM.png)
+
+## Pushing Changes
+
+Pushing means sending any changes in your code from RStudio to GitHub. To do this, we first have to commit. After committing, we now have a push button (the up arrow) on RStudio that we can use to send our code to GitHub.
+
+# Command Line Instructions
+
+## Getting Started with Git
+
+A great manual for using Git and GitHub in R can be found here: https://happygitwithr.com/index.html
+
+Begin by ensuring you have XCode command line tools enabled.
+
+Go to the Terminal and enter
+
+git --version
+
+If it is installed already, it will say so. If not, accept the offer to install.
+
+```{r, eval=FALSE}
+## install if needed (do this exactly once):
+## install.packages("usethis")
+
+library(usethis)
+use_git_config(user.name = "Jordan Dewar", user.email = "jordanldewar@gmail.com")
+```
+
+## Getting Started with Github
+
+Begin by making a Github account if you don't already have one:
+
+https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home
+
+In R, enter:
+
+```{r, eval=FALSE}
+#This is to create a Github token
+usethis::create_github_token()
+
+#Then 
+gitcreds::gitcreds_set()
+
+#When prompted, enter your token
+```
+
+Begin by making a repo on Github or follow along using mine.
+
+Make the repo public, go to the section labeled "code", and copy the HTTPS URL at the top. This is the URL for mine: https://github.com/J-Dewar/729B.git
+
+Enter RStudio, select Terminal, and enter
+
+git clone "your repository"
+
+or
+
+git clone https://github.com/J-Dewar/729B.git
+
+My repository for this is 729B, which will be the example I use moving forward.
+
+I can change my working directory to my Github repo using the command: "cd 729B" in the terminal.
+
+## Pushing Changes
+
+Let's start by making a simple change. We'll add the line "This is the repository for the GVPT class 729B" to the README file.
+
+In the terminal, I'll type: echo "This is the repository for the GVPT class 729B" \>\> README.md
+
+To check to see if the change worked, I'll type "git status" in the terminal.
+
+It will then show:
+
+jordandewar\@wireless-10-105-58-3 729B % echo "This is the repository for the GVPT class 729B" \>\> README.md jordandewar\@wireless-10-105-58-3 729B % git status On branch master
+
+No commits yet
+
+Untracked files: (use "git add <file>..." to include in what will be committed) README.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+To add the change, I use the command "git add README.md" followed by "git commit -m"A commit from my local computer"" The comment allows me to see who added the change and from where. Finally, I enter "gitpush" to push the change.
+
+This is what it then looks like on my Github page:
+
+![](images/Screen%20Shot%202022-11-29%20at%2012.03.17%20PM.png)
